@@ -1,7 +1,15 @@
 buildscript {
     repositories {
         mavenCentral()
-        jcenter()
+          all { ArtifactRepository repo ->
+          println repo.url.toString()
+          if (repo.url.toString().startsWith("https://jcenter.bintray.com/")) {
+              project.logger.warn "Repository ${repo.url} removed."
+              remove repo
+              mavenCentral()
+          }
+      }
+      gradlePluginPortal()
     }
 
     dependencies {
